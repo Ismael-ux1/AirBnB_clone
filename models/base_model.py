@@ -10,16 +10,26 @@ class BaseModel:
     methods for serialization/deserialization.
     """
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """
         Initializes a new instance of BaseModel.
+        If kwargs is provided, it populates
+        the instance attributes from the dictionary representation.
         """
-        # Generate a unique ID and convert to string
-        self.id = str(uuid.uuid4())
-        # Set the creation timestamp
-        self.created_at = datetime.now()
-        # Initialize updated_at with creation timestam
-        self.updated_at = self.created_at
+        if kwargs:
+            for key, value in kwargs.items():
+                if key != '__class__':
+                    if key in ['created_at', 'updated_at']:
+                        value = datetime.strptime(value,
+                                                  "%Y-%m-%dT%H:%M:%S.%f")
+                    setattr(self, key, value)
+        else:
+            # Generate a unique ID and convert to string
+            self.id = str(uuid.uuid4())
+            # Set the creation timestamep
+            self.created_at = datetime.now()
+            # Initialize updated_at with creation timestam
+            self.updated_at = self.created_at
 
     def __str__(self):
         """
