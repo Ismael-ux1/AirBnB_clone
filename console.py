@@ -2,6 +2,7 @@
 """Module for HBNBCommand class."""
 import cmd
 
+
 class HBNBCommand(cmd.Cmd):
     """Command interpreter for the HBNB project."""
 
@@ -14,6 +15,7 @@ class HBNBCommand(cmd.Cmd):
     def do_EOF(self, arg):
         """Exit the program"""
         return True
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
