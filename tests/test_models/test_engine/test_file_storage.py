@@ -7,6 +7,7 @@ from datetime import datetime
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 
+
 class TestFileStorage(unittest.TestCase):
     def setUp(self):
         # Create an instance of FileStorage for testing
@@ -49,6 +50,6 @@ class TestFileStorage(unittest.TestCase):
         key = "{}.{}".format(obj.__class__.__name__, obj.id)
         self.assertIn(key, new_storage._FileStorage__objects)
 
+
 if __name__ == '__main__':
     unittest.main()
-
