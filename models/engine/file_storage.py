@@ -37,6 +37,15 @@ class FileStorage:
         with open(self.__file_path, 'w') as file:
             json.dump(serialized_objects, file)
 
+    def classes(self):
+        """ as """
+        from models.base_model import BaseModel
+        from models.user import User
+
+        classes = {"BaseModel": BaseModel,
+                   "User": User}
+        return classes
+
     def reload(self):
         if os.path.exists(self.__file_path):
             with open(self.__file_path, 'r') as file:
