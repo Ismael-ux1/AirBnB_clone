@@ -4,12 +4,11 @@ import unittest
 from models.base_model import BaseModel
 from datetime import datetime
 
+
 class TestBaseModel(unittest.TestCase):
     """
     Unit tests for the BaseModel class.
     """
-
-
 
     def setUp(self):
         """
@@ -37,13 +36,15 @@ class TestBaseModel(unittest.TestCase):
         """
         self.assertTrue(hasattr(self.base_model, 'updated_at'))
         self.assertIsInstance(self.base_model.updated_at, datetime)
-        self.assertEqual(self.base_model.created_at, self.base_model.updated_at)
+        self.assertEqual(self.base_model.created_at,
+                         self.base_model.updated_at)
 
     def test_str_representation(self):
         """
         Test the __str__ method.
         """
-        expected_str = "[BaseModel] ({}) {}".format(self.base_model.id, self.base_model.__dict__)
+        expected_str = "[BaseModel] ({}) {}".format(self.base_model.id,
+                                                    self.base_model.__dict__)
         self.assertEqual(str(self.base_model), expected_str)
 
     def test_save_method(self):
@@ -52,7 +53,8 @@ class TestBaseModel(unittest.TestCase):
         """
         prev_updated_at = self.base_model.updated_at
         self.base_model.save()
-        self.assertNotEqual(prev_updated_at, self.base_model.updated_at)
+        self.assertNotEqual(prev_updated_at,
+                            self.base_model.updated_at)
 
     def test_to_dict_method(self):
         """
@@ -62,8 +64,11 @@ class TestBaseModel(unittest.TestCase):
         self.assertTrue(isinstance(obj_dict, dict))
         self.assertEqual(obj_dict['__class__'], 'BaseModel')
         self.assertEqual(obj_dict['id'], self.base_model.id)
-        self.assertEqual(obj_dict['created_at'], self.base_model.created_at.isoformat())
-        self.assertEqual(obj_dict['updated_at'], self.base_model.updated_at.isoformat())
+        self.assertEqual(obj_dict['created_at'],
+                         self.base_model.created_at.isoformat())
+        self.assertEqual(obj_dict['updated_at'],
+                         self.base_model.updated_at.isoformat())
+
 
 if __name__ == '__main__':
     unittest.main()
