@@ -37,6 +37,11 @@ class FileStorage:
         with open(self.__file_path, 'w') as file:
             json.dump(serialized_objects, file)
 
+    def reload(self):
+        if os.path.exists(self.__file_path):
+            with open(self.__file_path, 'r') as file:
+                self.__objects = json.load(file)
+
     def classes(self):
         """ as """
         from models.base_model import BaseModel
@@ -55,13 +60,3 @@ class FileStorage:
                    "Place": Place,
                    "Review": Review}
         return classes
-
-    def reload(self):
-        if os.path.exists(self.__file_path):
-            with open(self.__file_path, 'r') as file:
-                serialized_objects = json.load(file)
-                for key, value in serialized_objects.items():
-                    class_name, obj_id = key.split('.')
-                    class_name = class_name.capitalize()
-                    if class_name == "BaseModel":
-                        obj_instance = BaseModel(**value)
