@@ -38,12 +38,16 @@ class FileStorage:
             json.dump(serialized_objects, file)
 
     def reload(self):
+        """
+        Deserializes the JSON file to __objects (only if the JSON file (__file_path) exists;
+        otherwise, do nothing).
+        """
         if os.path.exists(self.__file_path):
             with open(self.__file_path, 'r') as file:
                 self.__objects = json.load(file)
 
     def classes(self):
-        """ as """
+        """ Creates a dictionary mapping class names to class objects """
         from models.base_model import BaseModel
         from models.user import User
         from models.state import State
