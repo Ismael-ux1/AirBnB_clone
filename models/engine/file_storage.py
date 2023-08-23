@@ -31,20 +31,23 @@ class FileStorage:
         """
         Serializes __objects to the JSON file (__file_path).
         """
-        serialized_objects = {}
-        for key, obj in self.__objects.items():
-            serialized_objects[key] = obj.to_dict()
-        with open(self.__file_path, 'w') as file:
+        with open(FileStorage.__file_path, "w", encoding="utf-8") as file:
+            serialized_objects = {key: obj.to_dict()
+                                  for key, obj in FileStorage.__objects.
+                                  items()}
             json.dump(serialized_objects, file)
 
     def reload(self):
         """
-        Deserializes the JSON file to __objects (only if the JSON file (__file_path) exists;
-        otherwise, do nothing).
+        Deserializes the JSON file to __objects
         """
-        if os.path.exists(self.__file_path):
-            with open(self.__file_path, 'r') as file:
-                self.__objects = json.load(file)
+        if not os.path.isfile(FileStorage.__file_path):
+            return
+        with open(FileStorage.__file_path, "r", encoding="utf-8") as file:
+            obj_dict = json.load(file)
+            obj_dict = {key: self.classes()[value["__class__"]](**value)
+                        for key, value in obj_dict.items()}
+            FileStorage.__objects = obj_dict
 
     def classes(self):
         """ Creates a dictionary mapping class names to class objects """
