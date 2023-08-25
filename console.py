@@ -131,6 +131,27 @@ class HBNBCommand(cmd.Cmd):
                 count += 1
         print(count)
 
+    def default(self, arg):
+        """Default behavior for cmd module when input is invalid"""
+        args = {
+            "all": self.do_all,
+            "show": self.do_show,
+            "destroy": self.do_destroy,
+            "count": self.do_count,
+            "update": self.do_update
+        }
+        match = re.search(r"\.", arg)
+        if match is not None:
+            class_name = [arg[:match.span()[0]], arg[match.span()[1]:]]
+            match = re.search(r"\((.*?)\)", class_name[1])
+            if match is not None:
+                command = [class_name[1][:match.span()[0]], match.group()[1:-1]]
+                if command[0] in args.keys():
+                    call = "{} {}".format(class_name[0], command[1])
+                    return args[command[0]](call)
+        print("*** Unknown syntax: {}".format(arg))
+        return False
+
 
     def do_quit(self, arg):
         'Quit command to exit the program'
