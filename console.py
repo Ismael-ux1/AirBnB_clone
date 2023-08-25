@@ -106,6 +106,17 @@ class HBNBCommand(cmd.Cmd):
                 setattr(instances[key], args[2], eval(args[3]))
                 storage.save()
 
+    def default(self, line):
+        'Custom default command to handle <class name>.all()" synatx.'
+        parts = line.split('.')
+        if len(parts) == 2 and parts[1] == 'all()':
+            class_name = parts[0]
+            if class_name in self.classes:
+                self.do_all(class_name)
+
+        else:
+            print("** Unkown syntax: {}".format(line))
+
     def do_quit(self, arg):
         'Quit command to exit the program'
         return True
