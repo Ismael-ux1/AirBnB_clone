@@ -2,6 +2,7 @@
 """Module for HBNBCommand class."""
 import cmd
 import models
+import re
 from models.base_model import BaseModel
 from models import storage
 from models.user import User
@@ -111,11 +112,25 @@ class HBNBCommand(cmd.Cmd):
         parts = line.split('.')
         if len(parts) == 2 and parts[1] == 'all()':
             class_name = parts[0]
+            if parts[1] == 'all()':
+                self.do_all(class_name)
+            elif parts[1] == 'count':
+                print(eval(class_name).count())
             if class_name in self.classes:
                 self.do_all(class_name)
-
         else:
             print("** Unkown syntax: {}".format(line))
+
+    def do_count(self, arg):
+        """Usage: <class name>.count()
+        Retrieve the number of instances of a given class."""
+        class_name = arg.split('.')[0]
+        count = 0
+        for obj in storage.all().values():
+            if class_name == obj.__class__.__name__:
+                count += 1
+        print(count)
+
 
     def do_quit(self, arg):
         'Quit command to exit the program'
