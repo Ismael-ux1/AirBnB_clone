@@ -112,7 +112,7 @@ class HBNBCommand(cmd.Cmd):
         parts = line.split('.')
         if len(parts) == 2 and parts[1] == 'all()':
             class_name = parts[0]
-            if parts[1] == 'all()':
+            if class_name in self.classes:
                 self.do_all(class_name)
             elif parts[1] == 'count':
                 print(eval(class_name).count())
@@ -122,7 +122,7 @@ class HBNBCommand(cmd.Cmd):
             print("** Unkown syntax: {}".format(line))
 
     def do_count(self, arg):
-        """Usage: <class name>.count()
+        """Usage: count <class> or <class>.count()
         Retrieve the number of instances of a given class."""
         class_name = arg.split('.')[0]
         count = 0
@@ -130,6 +130,7 @@ class HBNBCommand(cmd.Cmd):
             if class_name == obj.__class__.__name__:
                 count += 1
         print(count)
+
 
     def default(self, arg):
         """Default behavior for cmd module when input is invalid"""
